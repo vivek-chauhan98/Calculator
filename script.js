@@ -20,6 +20,7 @@ allkeys.addEventListener('click', (e) => {
             displayOne.innerText = ''
             secondKey = key.innerText
             displayOne.innerText = secondKey
+            
             lastKeyPressed = 'number'
         }
         else if (lastKeyPressed == 'backspace') {
@@ -57,7 +58,15 @@ allkeys.addEventListener('click', (e) => {
             displayOne.classList.add('size-small')
             displayOne.innerText = finalResult
         } else {
-            displayOne.innerText = parseFloat(Number(String(finalResult).substring(0,12)).toFixed(10))
+            displayOne.innerText = parseFloat(finalResult)
+        }
+        
+        if((displayOne.innerText).length > 12) {
+            displayOne.style.fontSize = '24px'
+            displayTwo.style.fontSize = '14px'
+        } else {
+            displayOne.style.fontSize = '42px'
+            displayTwo.style.fontSize = '16px'
         }
         displayTwo.innerText = `${firstNumber} ${operatorKey} ${secondNumber} =`
 
@@ -73,7 +82,7 @@ allkeys.addEventListener('click', (e) => {
     }   
 
     if (key.dataset.value == 'backspace') {
-
+        // console.log(operatorKey);
         if (lastKeyPressed == 'equal') {            
             displayTwo.innerText = ''
         } 
@@ -91,6 +100,8 @@ allkeys.addEventListener('click', (e) => {
     }
 })
 
+
+
 function calculation(firstNumber, operator, secondNumber) {
     let result = ''
     if (operator == '+') result = firstNumber + secondNumber
@@ -105,8 +116,5 @@ function calculation(firstNumber, operator, secondNumber) {
             result = firstNumber / secondNumber
         }
     }
-    return result
+    return result    
 }
-
-
-
