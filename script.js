@@ -57,7 +57,7 @@ allkeys.addEventListener('click', (e) => {
             displayOne.classList.add('size-small')
             displayOne.innerText = finalResult
         } else {
-            displayOne.innerText = parseFloat(finalResult.toFixed(10))
+            displayOne.innerText = parseFloat(Number(String(finalResult).substring(0,12)).toFixed(10))
         }
         displayTwo.innerText = `${firstNumber} ${operatorKey} ${secondNumber} =`
 
