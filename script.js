@@ -28,6 +28,7 @@ allkeys.addEventListener('click', (e) => {
             if ((displayOne.innerText).length > 14) {
                 key.classList.add('pointer-none')
             } else {
+                displayOne.classList.remove('size-32px')
                 displayOne.innerText += key.innerText
             }
 
@@ -41,11 +42,15 @@ allkeys.addEventListener('click', (e) => {
             }
         }
 
-        if ((displayOne.innerText).length > 12) displayOne.classList.add('size-32px')
-
         key.classList.remove('pointer-none')
 
         lastKeyPressed = 'number'
+    }
+
+    if ((displayOne.innerText).length > 12) {
+        displayOne.classList.add('size-32px')
+    } else {
+        displayOne.classList.remove('size-32px')
     }
 
     if (key.dataset.type == 'operator') {
@@ -75,11 +80,14 @@ allkeys.addEventListener('click', (e) => {
 
         if ((displayOne.innerText).length > 12) {
             displayOne.classList.add('size-small')
-            displayTwo.style.fontSize = '14px'
+            displayTwo.style.fontSize = '12px'
         } else {
             displayOne.classList.remove('size-small')
             displayTwo.style.fontSize = '16px'
         }
+        if (displayOne.innerText == 'Infinity') displayTwo.style.fontSize = '12px'
+
+
         displayTwo.innerText = `${firstNumber} ${operatorKey} ${secondNumber} =`
 
         lastKeyPressed = 'equal'
