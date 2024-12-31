@@ -2,7 +2,6 @@ const displayOne = document.querySelector('.display-1')
 const displayTwo = document.querySelector('.display-2')
 const allkeys = document.querySelector('.all-btns')
 
-
 let lastKeyPressed = ''
 let operatorKey = ''
 let firstKey = ''
@@ -20,19 +19,32 @@ allkeys.addEventListener('click', (e) => {
             displayOne.innerText = ''
             secondKey = key.innerText
             displayOne.innerText = secondKey
-            
             lastKeyPressed = 'number'
         }
         else if (lastKeyPressed == 'backspace') {
             displayOne.innerText += key.innerText
         }
         else {
-            displayOne.innerText += key.innerText
+            if ((displayOne.innerText).length > 14) {
+                key.classList.add('pointer-none')
+            } else {
+                displayOne.innerText += key.innerText
+            }
+
             if (secondKey) {
-                secondKey += key.innerText
+                if (secondKey.length > 14) {
+                    key.classList.add('pointer-none')
+                } else {
+                    secondKey += key.innerText
+                }
                 displayOne.innerText = secondKey
             }
         }
+
+        if ((displayOne.innerText).length > 12) displayOne.classList.add('size-32px')
+
+        key.classList.remove('pointer-none')
+
         lastKeyPressed = 'number'
     }
 
@@ -49,7 +61,7 @@ allkeys.addEventListener('click', (e) => {
         let secondNumber = Number(displayOne.innerText)
         let finalResult = calculation(firstNumber, operatorKey, secondNumber)
 
-        if (lastKeyPressed == 'equal' || lastKeyPressed == 'backspace') {            
+        if (lastKeyPressed == 'equal' || lastKeyPressed == 'backspace') {
             firstNumber = Number(displayOne.innerText)
             secondNumber = Number(secondKey)
             finalResult = calculation(firstNumber, operatorKey, secondNumber)
@@ -60,12 +72,12 @@ allkeys.addEventListener('click', (e) => {
         } else {
             displayOne.innerText = parseFloat(finalResult)
         }
-        
-        if((displayOne.innerText).length > 12) {
-            displayOne.style.fontSize = '24px'
+
+        if ((displayOne.innerText).length > 12) {
+            displayOne.classList.add('size-small')
             displayTwo.style.fontSize = '14px'
         } else {
-            displayOne.style.fontSize = '42px'
+            displayOne.classList.remove('size-small')
             displayTwo.style.fontSize = '16px'
         }
         displayTwo.innerText = `${firstNumber} ${operatorKey} ${secondNumber} =`
@@ -79,13 +91,12 @@ allkeys.addEventListener('click', (e) => {
         firstKey = 0
         secondKey = 0
         lastKeyPressed = 'clear'
-    }   
+    }
 
     if (key.dataset.value == 'backspace') {
-        // console.log(operatorKey);
-        if (lastKeyPressed == 'equal') {            
+        if (lastKeyPressed == 'equal') {
             displayTwo.innerText = ''
-        } 
+        }
         else {
             const firstNumberInArray = (displayOne.innerText).split('')
             firstNumberInArray.pop()
@@ -116,5 +127,5 @@ function calculation(firstNumber, operator, secondNumber) {
             result = firstNumber / secondNumber
         }
     }
-    return result    
+    return result
 }
