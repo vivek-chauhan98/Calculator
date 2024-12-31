@@ -76,9 +76,7 @@ allkeys.addEventListener('click', (e) => {
 
         if (lastKeyPressed == 'equal') {            
             displayTwo.innerText = ''
-        } else if (lastKeyPressed == 'backspace' && operatorKey != '') {
-            console.log('already cleared');
-        }
+        } 
         else {
             const firstNumberInArray = (displayOne.innerText).split('')
             firstNumberInArray.pop()
