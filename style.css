@@ -34,7 +34,6 @@ body{
     font-family: sans-serif;
     border: 1px solid white;
     border-radius: 10px;
-    overflow-x: hidden;
 }
 
 .display-2{
@@ -52,6 +51,7 @@ body{
     grid-template-columns: repeat(4, 75px);
     gap: 3px;
     height: 74%;
+    width: 100%;
 }
 
 .all-btns > button{
