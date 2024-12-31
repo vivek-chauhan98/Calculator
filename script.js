@@ -6,6 +6,7 @@ let lastKeyPressed = ''
 let operatorKey = ''
 let firstKey = ''
 let secondKey = ''
+let newCalculate = ''
 
 allkeys.addEventListener('click', (e) => {
 
@@ -13,6 +14,7 @@ allkeys.addEventListener('click', (e) => {
     const key = e.target
 
     if (key.dataset.type == 'number') {
+
         displayOne.classList.remove('size-small')
 
         if (lastKeyPressed == 'operator') {
@@ -24,6 +26,12 @@ allkeys.addEventListener('click', (e) => {
         else if (lastKeyPressed == 'backspace') {
             displayOne.innerText += key.innerText
         }
+        else if (lastKeyPressed == 'equal') {
+            firstKey = ''
+            firstKey = key.innerText
+            displayOne.innerText = firstKey
+            newCalculate = true
+        }
         else {
             if ((displayOne.innerText).length > 14) {
                 key.classList.add('pointer-none')
@@ -31,7 +39,7 @@ allkeys.addEventListener('click', (e) => {
                 displayOne.classList.remove('size-32px')
                 displayOne.innerText += key.innerText
             }
-
+            
             if (secondKey) {
                 if (secondKey.length > 14) {
                     key.classList.add('pointer-none')
@@ -40,8 +48,14 @@ allkeys.addEventListener('click', (e) => {
                 }
                 displayOne.innerText = secondKey
             }
-        }
 
+            if (newCalculate == true) {
+                firstKey += key.innerText
+                displayOne.innerText = firstKey
+                let len = secondKey.length
+                secondKey = secondKey.slice(0, len-1)
+            }
+        }
         key.classList.remove('pointer-none')
 
         lastKeyPressed = 'number'
@@ -61,7 +75,6 @@ allkeys.addEventListener('click', (e) => {
     }
 
     if (key.dataset.value == 'equal') {
-
         let firstNumber = Number(firstKey)
         let secondNumber = Number(displayOne.innerText)
         let finalResult = calculation(firstNumber, operatorKey, secondNumber)
@@ -70,6 +83,12 @@ allkeys.addEventListener('click', (e) => {
             firstNumber = Number(displayOne.innerText)
             secondNumber = Number(secondKey)
             finalResult = calculation(firstNumber, operatorKey, secondNumber)
+        }
+        if (newCalculate == true) {
+            firstNumber = Number(firstKey)
+            secondNumber = Number(secondKey)
+            finalResult = calculation(firstNumber, operatorKey, secondNumber)
+            newCalculate = false
         }
         if (typeof finalResult == 'string') {
             displayOne.classList.add('size-small')
@@ -86,7 +105,6 @@ allkeys.addEventListener('click', (e) => {
             displayTwo.style.fontSize = '16px'
         }
         if (displayOne.innerText == 'Infinity') displayTwo.style.fontSize = '12px'
-
 
         displayTwo.innerText = `${firstNumber} ${operatorKey} ${secondNumber} =`
 
@@ -105,6 +123,9 @@ allkeys.addEventListener('click', (e) => {
         if (lastKeyPressed == 'equal') {
             displayTwo.innerText = ''
         }
+        else if (lastKeyPressed == 'operator') {
+            console.log('no-action');
+        }
         else {
             const firstNumberInArray = (displayOne.innerText).split('')
             firstNumberInArray.pop()
@@ -118,8 +139,6 @@ allkeys.addEventListener('click', (e) => {
         lastKeyPressed = 'negate'
     }
 })
-
-
 
 function calculation(firstNumber, operator, secondNumber) {
     let result = ''
