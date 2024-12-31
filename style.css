@@ -74,6 +74,14 @@ body{
     font-size: 26px;
 }
 
+.size-32px{
+    font-size: 32px;
+}
+
 .size-small{
     font-size: 24px;
+}
+
+.pointer-none{
+    pointer-events: none;
 }
