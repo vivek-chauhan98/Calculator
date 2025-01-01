@@ -7,6 +7,8 @@ let operatorKey = ''
 let firstKey = ''
 let secondKey = ''
 let newCalculate = ''
+let stopBackSpace = ''
+let numberEntered = ''
 
 allkeys.addEventListener('click', (e) => {
 
@@ -24,7 +26,14 @@ allkeys.addEventListener('click', (e) => {
             lastKeyPressed = 'number'
         }
         else if (lastKeyPressed == 'backspace') {
-            displayOne.innerText += key.innerText
+            if (stopBackSpace == true) {
+                numberEntered = true
+                displayOne.innerText = ''
+                displayOne.innerText += key.innerText
+                firstKey = displayOne.innerText                
+            } else {
+                displayOne.innerText += key.innerText
+            }
         }
         else if (lastKeyPressed == 'equal') {
             firstKey = ''
@@ -39,7 +48,7 @@ allkeys.addEventListener('click', (e) => {
                 displayOne.classList.remove('size-32px')
                 displayOne.innerText += key.innerText
             }
-            
+
             if (secondKey) {
                 if (secondKey.length > 14) {
                     key.classList.add('pointer-none')
@@ -52,8 +61,14 @@ allkeys.addEventListener('click', (e) => {
             if (newCalculate == true) {
                 firstKey += key.innerText
                 displayOne.innerText = firstKey
-                let len = secondKey.length
-                secondKey = secondKey.slice(0, len-1)
+                let len1 = secondKey.length
+                secondKey = secondKey.slice(0, len1 - 1)
+            }
+            if (stopBackSpace == true && numberEntered == true) {
+                firstKey += key.innerText
+                displayOne.innerText = firstKey
+                let len2= secondKey.length
+                secondKey = secondKey.slice(0, len2 - 1)
             }
         }
         key.classList.remove('pointer-none')
@@ -90,6 +105,12 @@ allkeys.addEventListener('click', (e) => {
             finalResult = calculation(firstNumber, operatorKey, secondNumber)
             newCalculate = false
         }
+        if (stopBackSpace == true && numberEntered == true) {
+            firstNumber = Number(firstKey)
+            secondNumber = Number(secondKey)
+            finalResult = calculation(firstNumber, operatorKey, secondNumber)
+            stopBackSpace = false
+        }
         if (typeof finalResult == 'string') {
             displayOne.classList.add('size-small')
             displayOne.innerText = finalResult
@@ -122,9 +143,13 @@ allkeys.addEventListener('click', (e) => {
     if (key.dataset.value == 'backspace') {
         if (lastKeyPressed == 'equal') {
             displayTwo.innerText = ''
+            stopBackSpace = true
+            debugger
         }
         else if (lastKeyPressed == 'operator') {
-            console.log('no-action');
+            console.log('no-action')
+        } else if (stopBackSpace == true && lastKeyPressed == 'backspace') {
+            console.log('no-backspace')
         }
         else {
             const firstNumberInArray = (displayOne.innerText).split('')
